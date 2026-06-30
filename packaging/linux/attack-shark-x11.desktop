@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Attack Shark X11
+Comment=Battery monitor for the Attack Shark X11 mouse
+Exec=attack-shark-x11
+Icon=attack-shark-x11
+Terminal=false
+Categories=Utility;HardwareSettings;
+StartupNotify=false

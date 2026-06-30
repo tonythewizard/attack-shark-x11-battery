@@ -1,0 +1,5 @@
+include README.md LICENSE CHANGELOG.md screenshot.png requirements.txt requirements-dev.txt
+recursive-include assets *.ico *.png
+recursive-include packaging *.desktop *.iss *.spec *.txt
+recursive-include scripts *.py *.ps1 *.sh
+recursive-include tests *.py
