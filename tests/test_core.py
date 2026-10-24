@@ -61,6 +61,10 @@ def test_fin_icon_and_chart_render():
         "tech_blue",
         "modern_glass",
         "compact_pro",
+        "obsidian",
+        "arctic",
+        "graphite",
+        "midnight",
     }
     for theme in THEMES.values():
         themed_chart = render_chart(
