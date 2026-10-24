@@ -193,6 +193,42 @@ THEMES: dict[str, Theme] = {
         rate_accent="#FF7748",
         radius=10,
     ),
+    "obsidian": Theme(
+        key="obsidian", name="Obsidian", layout="minimal",
+        accent="#C5A46D", accent_2="#E2C99C", window="#080A0D", shell="#0E1116",
+        surface="#161B22", surface_2="#1C222B", surface_3="#10151B",
+        border="#3B434F", border_soft="#28313B", text="#F2F2EF", muted="#9DA6B1",
+        muted_2="#788391", track="#323B45", chart_grid="#28313C",
+        chart_plot="#0F141B", chart_fill_alpha=38,
+        estimate_accent="#9CB2C8", rate_accent="#C5A46D", radius=14,
+    ),
+    "arctic": Theme(
+        key="arctic", name="Arctic Light", layout="glass",
+        accent="#2563EB", accent_2="#60A5FA", window="#EEF2F7", shell="#F5F7FB",
+        surface="#FFFFFF", surface_2="#EAF0F8", surface_3="#F7F9FC",
+        border="#C9D6E6", border_soft="#D8E1ED", text="#14243A", muted="#53667F",
+        muted_2="#71839A", track="#CED8E5", chart_grid="#DEE6F0",
+        chart_plot="#F5F8FD", chart_fill_alpha=32,
+        estimate_accent="#3278BA", rate_accent="#D18B45", radius=14,
+    ),
+    "graphite": Theme(
+        key="graphite", name="Graphite Studio", layout="compact",
+        accent="#8AA4BF", accent_2="#B8CADC", window="#101214", shell="#171A1E",
+        surface="#20252A", surface_2="#252B32", surface_3="#171B20",
+        border="#424A53", border_soft="#323940", text="#EDF0F3", muted="#A4ADB8",
+        muted_2="#7B8793", track="#424A53", chart_grid="#343C45",
+        chart_plot="#14191E", chart_fill_alpha=28,
+        estimate_accent="#92B2B1", rate_accent="#BEA585", radius=10,
+    ),
+    "midnight": Theme(
+        key="midnight", name="Midnight Slate", layout="tech",
+        accent="#6D8CF7", accent_2="#9AB0FF", window="#080D18", shell="#0C1321",
+        surface="#121D2F", surface_2="#17253B", surface_3="#0F1829",
+        border="#344967", border_soft="#253953", text="#F3F6FE", muted="#A7B5CD",
+        muted_2="#7185A3", track="#344965", chart_grid="#243953",
+        chart_plot="#0D1626", chart_fill_alpha=48,
+        estimate_accent="#6FBFC8", rate_accent="#E2A979", radius=12,
+    ),
 }
 
 

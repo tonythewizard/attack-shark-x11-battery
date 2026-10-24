@@ -44,7 +44,7 @@ UPDATE_CHECK_INTERVAL = 24 * 3600
 BATTERY_ALERT_LEVELS = (20, 10, 5)
 
 DEFAULT_THEME = "minimal_dark"
-THEME_ORDER = ("minimal_dark", "tech_blue", "modern_glass", "compact_pro")
+THEME_ORDER = ("minimal_dark", "tech_blue", "modern_glass", "compact_pro", "obsidian", "arctic", "graphite", "midnight")
 THEMES: dict[str, dict[str, Any]] = {
     "minimal_dark": {
         "name": "Minimal Dark",
@@ -165,6 +165,54 @@ THEMES: dict[str, dict[str, Any]] = {
             "line": "#A558FF",
             "fill_alpha": 46,
         },
+    },
+    "obsidian": {
+        "name": "Obsidian", "layout": "minimal", "geometry": "960x650",
+        "minsize": (850, 580),
+        "palette": {"window": "#080A0D", "card": "#161B22", "card_alt": "#1C222B",
+            "border": "#3B434F", "text": "#F2F2EF", "muted": "#9DA6B1",
+            "soft": "#F2F2EF", "button": "#1C222B", "button_hover": "#10151B",
+            "accent": "#C5A46D", "accent_hover": "#E2C99C", "track_off": "#323B45",
+            "separator": "#3B434F"},
+        "chart": {"background": "#161B22", "plot": "#0F141B",
+            "grid": "#28313C", "axis": "#9DA6B1", "border": "#28313B",
+            "line": "#C5A46D", "fill_alpha": 38},
+    },
+    "arctic": {
+        "name": "Arctic Light", "layout": "glass", "geometry": "960x650",
+        "minsize": (850, 580),
+        "palette": {"window": "#EEF2F7", "card": "#FFFFFF", "card_alt": "#EAF0F8",
+            "border": "#C9D6E6", "text": "#14243A", "muted": "#53667F",
+            "soft": "#14243A", "button": "#EAF0F8", "button_hover": "#F7F9FC",
+            "accent": "#2563EB", "accent_hover": "#60A5FA", "track_off": "#CED8E5",
+            "separator": "#C9D6E6"},
+        "chart": {"background": "#FFFFFF", "plot": "#F5F8FD",
+            "grid": "#DEE6F0", "axis": "#53667F", "border": "#D8E1ED",
+            "line": "#2563EB", "fill_alpha": 32},
+    },
+    "graphite": {
+        "name": "Graphite Studio", "layout": "compact", "geometry": "960x650",
+        "minsize": (850, 580),
+        "palette": {"window": "#101214", "card": "#20252A", "card_alt": "#252B32",
+            "border": "#424A53", "text": "#EDF0F3", "muted": "#A4ADB8",
+            "soft": "#EDF0F3", "button": "#252B32", "button_hover": "#171B20",
+            "accent": "#8AA4BF", "accent_hover": "#B8CADC", "track_off": "#424A53",
+            "separator": "#424A53"},
+        "chart": {"background": "#20252A", "plot": "#14191E",
+            "grid": "#343C45", "axis": "#A4ADB8", "border": "#323940",
+            "line": "#8AA4BF", "fill_alpha": 28},
+    },
+    "midnight": {
+        "name": "Midnight Slate", "layout": "tech", "geometry": "960x650",
+        "minsize": (850, 580),
+        "palette": {"window": "#080D18", "card": "#121D2F", "card_alt": "#17253B",
+            "border": "#344967", "text": "#F3F6FE", "muted": "#A7B5CD",
+            "soft": "#F3F6FE", "button": "#17253B", "button_hover": "#0F1829",
+            "accent": "#6D8CF7", "accent_hover": "#9AB0FF", "track_off": "#344965",
+            "separator": "#344967"},
+        "chart": {"background": "#121D2F", "plot": "#0D1626",
+            "grid": "#243953", "axis": "#A7B5CD", "border": "#253953",
+            "line": "#6D8CF7", "fill_alpha": 48},
     },
 }
 
