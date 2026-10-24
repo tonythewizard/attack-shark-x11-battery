@@ -15,7 +15,7 @@ reports directly and does not replace the device driver.
 - Neutral **Connected** status during normal use; **Low battery** appears only
   when the configured threshold is reached.
 - Animated **Loading device...** state while the first mouse status is read.
-- Four fully rendered PySide6 dashboard themes: **Minimal Dark**, **Tech Blue**, **Modern Glass**, and **Compact Pro**. Each theme has its own layout, palette, antialiased gauge, and chart treatment; the choice is stored locally and restored on the next launch.
+- Eight fully rendered PySide6 dashboard themes: **Minimal Dark**, **Tech Blue**, **Modern Glass**, **Compact Pro**, **Obsidian**, **Arctic Light**, **Graphite Studio**, and **Midnight Slate**. Each theme has its own layout, palette, antialiased gauge, and chart treatment; the choice is stored locally and restored on the next launch.
 - Battery history chart with `1h`, `6h`, `24h`, `7d`, and `All` ranges.
 - Estimated remaining time and battery-use rate once enough history exists.
 - Desktop notifications when the battery reaches 20%, 10%, and 5%; each alert can repeat after the battery rises above that level and drains again.
@@ -49,7 +49,7 @@ entry, or choose **Dashboard** to open the window. Closing the window returns it
 to the tray; choose **Quit** from the tray menu to stop it.
 
 Use the **Theme** selector in the upper-right corner of the dashboard to switch
-between Minimal Dark, Tech Blue, Modern Glass, and Compact Pro.
+between the eight built-in themes.
 
 When the wireless dongle is detected but the mouse has not emitted a battery
 report yet, move the mouse to wake it. Over the USB cable the app can detect that
@@ -58,13 +58,17 @@ the mouse is charging, but the percentage is not available from that device ID.
 
 ## Dashboard themes
 
-The four themes are built with PySide6/Qt and change the layout as well as the color palette while keeping the same battery data and controls. Circular gauges and charts are painted with antialiasing, so they remain sharp at Windows display scaling levels. Theme changes are applied live without restarting the app. Each profile also has a translucent atmospheric background made from layered glows, ribbons, subtle texture, and theme-specific geometry.
+The eight themes are built with PySide6/Qt and change the layout as well as the color palette while keeping the same battery data and controls. Circular gauges and charts are painted with antialiasing, so they remain sharp at Windows display scaling levels. Theme changes are applied live without restarting the app. Each profile also has a translucent atmospheric background made from layered glows, ribbons, subtle texture, and theme-specific geometry.
 
 | Minimal Dark | Tech Blue |
 | --- | --- |
 | ![Minimal Dark](screenshot-minimal_dark.png) | ![Tech Blue](screenshot-tech_blue.png) |
 | Modern Glass | Compact Pro |
 | ![Modern Glass](screenshot-modern_glass.png) | ![Compact Pro](screenshot-compact_pro.png) |
+
+### Professional theme collection
+
+The four additional presets offer restrained desktop-oriented palettes. **Obsidian** uses warm metallic accents, **Arctic Light** offers a bright neutral workspace, **Graphite Studio** prioritizes compact muted surfaces, and **Midnight Slate** uses cool low-glare blues. All presets reuse the existing Qt layouts and preserve status, battery history, alert thresholds, tray operation, and saved preferences.
 
 ## Data locations
 
