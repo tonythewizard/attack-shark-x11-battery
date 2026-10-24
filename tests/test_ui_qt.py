@@ -24,7 +24,7 @@ def test_all_qt_themes_build_and_render():
         assert image.width() == 960
         assert image.height() == 640
         assert window.theme_key == key
-        assert window.theme_combo.count() == 4
+        assert window.theme_combo.count() == len(THEMES)
         window.deleteLater()
         app.processEvents()
 
@@ -45,7 +45,7 @@ def test_theme_switches_replace_surface_without_blank_ui():
     app.processEvents()
 
     previous_content = window.content
-    for key in ("tech_blue", "modern_glass", "compact_pro", "minimal_dark"):
+    for key in ("tech_blue", "modern_glass", "compact_pro", "obsidian", "arctic", "graphite", "midnight", "minimal_dark"):
         index = window.theme_combo.findData(key)
         assert index >= 0
         window.theme_combo.setCurrentIndex(index)
