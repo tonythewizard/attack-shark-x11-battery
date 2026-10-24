@@ -27,7 +27,7 @@ reports directly and does not replace the device driver.
 
 ## Windows installation
 
-Download **`AttackSharkX11-Setup-1.1.0.exe`** from the latest GitHub Release and
+Download **`AttackSharkX11-Setup-1.1.1.exe`** from the latest GitHub Release and
 run it. Python is not required.
 
 The installer:
@@ -155,7 +155,7 @@ The script runs the tests, bundles the PySide6/Qt runtime in an optimized PyInst
 and wraps it in one downloadable installer:
 
 ```text
-dist/installer/AttackSharkX11-Setup-1.1.0.exe
+dist/installer/AttackSharkX11-Setup-1.1.1.exe
 ```
 
 The installed application uses multiple internal files for faster startup and
@@ -172,14 +172,14 @@ The repository includes two workflows:
 A manual run from **Actions → Build Windows installer → Run workflow** creates a downloadable workflow artifact. Pushing a version tag also creates or updates the matching GitHub Release and attaches the installer and checksum automatically:
 
 ```bash
-git tag v1.1.0
-git push origin v1.1.0
+git tag v1.1.1
+git push origin v1.1.1
 ```
 
 The published asset is:
 
 ```text
-AttackSharkX11-Setup-1.1.0.exe
+AttackSharkX11-Setup-1.1.1.exe
 ```
 
 ## Technical notes

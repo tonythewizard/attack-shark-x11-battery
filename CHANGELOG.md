@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+- Fixed the Linux CI shutdown crash on Python 3.10 and 3.11 by selecting a compatible PySide6 release for those Python versions. Python 3.12 and newer continue to use the current PySide6 series.
+
 ## 1.1.0
 
 - Added separate system notifications at 20%, 10%, and 5% battery, with each alert rearmed after the battery rises above its level.
