@@ -25,7 +25,8 @@ classifiers = [
 dependencies = [
   "hidapi>=0.14,<1",
   "Pillow>=10,<13",
-  "PySide6>=6.7,<7",
+  "PySide6>=6.7,<6.12; python_version < '3.12'",
+  "PySide6>=6.7,<7; python_version >= '3.12'",
 ]
 
 [project.urls]
