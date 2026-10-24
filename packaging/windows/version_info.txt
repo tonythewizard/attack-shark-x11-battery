@@ -16,12 +16,12 @@ VSVersionInfo(
         [
           StringStruct(u'CompanyName', u'Antonio'),
           StringStruct(u'FileDescription', u'Attack Shark X11 Battery Monitor'),
-          StringStruct(u'FileVersion', u'1.0.0'),
+          StringStruct(u'FileVersion', u'1.1.0'),
           StringStruct(u'InternalName', u'AttackSharkX11'),
           StringStruct(u'LegalCopyright', u'Copyright (c) 2026 Antonio'),
           StringStruct(u'OriginalFilename', u'AttackSharkX11.exe'),
           StringStruct(u'ProductName', u'Attack Shark X11'),
-          StringStruct(u'ProductVersion', u'1.0.0')
+          StringStruct(u'ProductVersion', u'1.1.0')
         ]
       )
     ]),

@@ -18,7 +18,7 @@ reports directly and does not replace the device driver.
 - Four fully rendered PySide6 dashboard themes: **Minimal Dark**, **Tech Blue**, **Modern Glass**, and **Compact Pro**. Each theme has its own layout, palette, antialiased gauge, and chart treatment; the choice is stored locally and restored on the next launch.
 - Battery history chart with `1h`, `6h`, `24h`, `7d`, and `All` ranges.
 - Estimated remaining time and battery-use rate once enough history exists.
-- Low-battery desktop notification.
+- Desktop notifications when the battery reaches 20%, 10%, and 5%; each alert can repeat after the battery rises above that level and drains again.
 - Optional launch at startup, disabled by default.
 - Single-instance behavior: opening the app again brings up the existing
   dashboard instead of creating another tray icon.
@@ -27,7 +27,7 @@ reports directly and does not replace the device driver.
 
 ## Windows installation
 
-Download **`AttackSharkX11-Setup-1.0.0.exe`** from the latest GitHub Release and
+Download **`AttackSharkX11-Setup-1.1.0.exe`** from the latest GitHub Release and
 run it. Python is not required.
 
 The installer:
@@ -97,7 +97,20 @@ adds a desktop entry. Remove it with:
 ./scripts/uninstall_linux.sh
 ```
 
-Linux requires Python 3, a working Qt system-tray implementation, the platform libraries required by PySide6/Qt, and the native libraries needed by `hidapi`.
+Linux requires Python 3, the platform libraries required by PySide6/Qt, and the native libraries needed by `hidapi`. On Debian or Ubuntu, install the common Qt runtime libraries before running the installer:
+
+```bash
+sudo apt install python3 python3-venv libegl1 libgl1 libxkbcommon-x11-0 libxcb-cursor0
+./scripts/install_linux.sh
+```
+
+The app needs permission to read the wireless dongle's HID interface. If the dashboard says **Unavailable**, or `attack-shark-x11 --check` reports `HID access: FAILED`, install the included udev rule and reconnect the dongle:
+
+```bash
+sudo ./scripts/install_udev.sh
+```
+
+The rule grants access to the logged-in desktop session. On systems without `systemd-udevd` or logind, configure an equivalent local udev rule for USB ID `1d57:fa60` and grant access to your user. The dashboard remains usable on desktop environments without a system tray; it opens directly instead.
 
 ## Command-line tools
 
@@ -142,7 +155,7 @@ The script runs the tests, bundles the PySide6/Qt runtime in an optimized PyInst
 and wraps it in one downloadable installer:
 
 ```text
-dist/installer/AttackSharkX11-Setup-1.0.0.exe
+dist/installer/AttackSharkX11-Setup-1.1.0.exe
 ```
 
 The installed application uses multiple internal files for faster startup and
@@ -159,14 +172,14 @@ The repository includes two workflows:
 A manual run from **Actions → Build Windows installer → Run workflow** creates a downloadable workflow artifact. Pushing a version tag also creates or updates the matching GitHub Release and attaches the installer and checksum automatically:
 
 ```bash
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.1.0
+git push origin v1.1.0
 ```
 
 The published asset is:
 
 ```text
-AttackSharkX11-Setup-1.0.0.exe
+AttackSharkX11-Setup-1.1.0.exe
 ```
 
 ## Technical notes

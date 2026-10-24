@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0
+
+- Added separate system notifications at 20%, 10%, and 5% battery, with each alert rearmed after the battery rises above its level.
+- Fixed Linux wireless monitoring so it uses the hidraw backend and leaves the kernel mouse input driver attached; the pointer remains usable while the app is open.
+- Added Linux HID diagnostics and udev rules for both hidraw and USB backends, including an installer for the rule.
+- Improved the Linux installation instructions and made reinstalling update the app from the local checkout even when the version is unchanged.
+
 ## 1.0.0
 
 - Fixed live theme switching on Windows by replacing the dashboard surface atomically on the next Qt event-loop turn; changing theme no longer leaves a blank or frozen window.

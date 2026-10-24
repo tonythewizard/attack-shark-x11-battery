@@ -1,0 +1,5 @@
+# Allow the logged-in desktop user to open the Attack Shark X11 wireless dongle.
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1d57", ATTRS{idProduct}=="fa60", TAG+="uaccess"
+# The PyPI hidapi wheel may use its libusb backend, which opens the USB device
+# node instead of /dev/hidraw*. Grant the same session access to that node too.
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="1d57", ATTR{idProduct}=="fa60", TAG+="uaccess"

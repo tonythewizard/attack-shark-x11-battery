@@ -1,5 +1,5 @@
 #define AppName "Attack Shark X11"
-#define AppVersion "1.0.0"
+#define AppVersion "1.1.0"
 #define AppPublisher "Antonio"
 #define AppExeName "AttackSharkX11.exe"
 #define AppURL "https://github.com/tonythewizard/attack-shark-x11-battery"

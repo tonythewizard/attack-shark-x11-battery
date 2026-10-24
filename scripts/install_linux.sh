@@ -10,7 +10,8 @@ ICON_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/icons/hicolor/256x256/apps"
 
 python3 -m venv "$VENV"
 "$VENV/bin/python" -m pip install --upgrade pip
-"$VENV/bin/python" -m pip install "$ROOT"
+# Reinstall the local checkout even when its version number is unchanged.
+"$VENV/bin/python" -m pip install --force-reinstall --no-deps "$ROOT"
 
 mkdir -p "$BIN_DIR" "$APP_DESKTOP_DIR" "$ICON_DIR"
 ln -sfn "$VENV/bin/attack-shark-x11" "$BIN_DIR/attack-shark-x11"

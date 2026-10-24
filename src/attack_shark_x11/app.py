@@ -2,7 +2,7 @@
 """Attack Shark X11 battery tray and dashboard.
 
 The application reads the mouse's native HID reports, keeps a lightweight
-battery history, exposes a dynamic system-tray icon, and shows a Tk dashboard.
+battery history, exposes a dynamic system-tray icon, and shows a Qt dashboard.
 It supports Windows and Linux without replacing the mouse driver.
 """
 
@@ -41,6 +41,7 @@ RELEASE_API_URL = f"{REPO_URL.replace('github.com', 'api.github.com/repos')}/rel
 RUN_KEY = r"Software\Microsoft\Windows\CurrentVersion\Run"
 RUN_NAME = "AttackSharkX11"
 UPDATE_CHECK_INTERVAL = 24 * 3600
+BATTERY_ALERT_LEVELS = (20, 10, 5)
 
 DEFAULT_THEME = "minimal_dark"
 THEME_ORDER = ("minimal_dark", "tech_blue", "modern_glass", "compact_pro")
@@ -446,6 +447,18 @@ class InstanceBroker:
 # HID protocol
 
 def get_hid_module() -> Any:
+    # The hidapi wheel exposes a hidraw backend on Linux. The default `hid`
+    # module may use libusb, which detaches the mouse's kernel input driver and
+    # can stop pointer movement while the monitor is running.
+    if sys.platform.startswith("linux"):
+        try:
+            import hidraw
+
+            return hidraw
+        except ImportError:
+            # Falling back to libusb can detach the kernel mouse driver and
+            # leave the pointer unusable while the app is open.
+            return None
     try:
         import hid
 
@@ -468,7 +481,9 @@ def enumerate_mode(hid_module: Any = None) -> tuple[Optional[str], list[Any]]:
     hid_module = hid_module or get_hid_module()
     if hid_module is None:
         raise RuntimeError("hidapi is not installed")
-    paths = [device["path"] for device in hid_module.enumerate(VID, PID_ADAPTER)]
+    paths = list(dict.fromkeys(
+        device["path"] for device in hid_module.enumerate(VID, PID_ADAPTER)
+    ))
     if paths:
         return "adapter", paths
     if hid_module.enumerate(VID, PID_WIRED):
@@ -487,9 +502,22 @@ def open_devices(paths: Iterable[Any], hid_module: Any = None) -> list[Any]:
             device.open_path(path)
             device.set_nonblocking(1)
             devices.append(device)
-        except (OSError, ValueError):
+        except (OSError, ValueError) as exc:
+            _log_hid_open_error(exc)
             continue
     return devices
+
+
+def _log_hid_open_error(error: BaseException) -> None:
+    """Keep HID permission and device errors visible for Linux troubleshooting."""
+    try:
+        with LOG_PATH.open("a", encoding="utf-8") as handle:
+            handle.write(
+                f"\n=== {time.strftime('%Y-%m-%d %H:%M:%S')} HID open failed ===\n"
+                f"{type(error).__name__}: {error}\n"
+            )
+    except OSError:
+        pass
 
 
 def close_devices(devices: Iterable[Any]) -> None:
@@ -537,6 +565,7 @@ def monitor_loop(
     last_level: Optional[int] = None
     last_enum = 0.0
     last_emit = time.monotonic()
+    device_open_failed = False
 
     def fire(mode: str, level: Optional[int], is_change: bool) -> None:
         nonlocal last_emit
@@ -561,16 +590,26 @@ def monitor_loop(
                 # falling back to the loading/waiting state.
                 if normalized != "adapter":
                     last_level = None
+                    device_open_failed = False
                     fire(normalized, None, True)
                 else:
                     devices = open_devices(paths, hid_module)
-                    if last_level is None:
+                    device_open_failed = not devices
+                    if device_open_failed:
+                        fire("error", None, True)
+                    elif last_level is None:
                         fire("waiting", None, True)
                     else:
                         fire("adapter", last_level, False)
             elif normalized == "adapter" and not devices:
                 # Re-open failed handles without changing the visible state.
                 devices = open_devices(paths, hid_module)
+                if devices:
+                    device_open_failed = False
+                    fire("waiting" if last_level is None else "adapter", last_level, True)
+                elif not device_open_failed:
+                    device_open_failed = True
+                    fire("error", None, True)
 
         if current_mode == "adapter" and devices:
             received = False
@@ -1038,7 +1077,8 @@ class App:
     def __init__(self, threshold: int, broker: InstanceBroker) -> None:
         self.threshold = max(1, min(99, threshold))
         self.broker = broker
-        self.warned = False
+        self._notified_battery_levels: set[int] = set()
+        self._has_battery_sample = False
         self._lock = threading.Lock()
         self._history = history_load()
         self._mode = "loading"
@@ -1081,12 +1121,26 @@ class App:
                 self._history.append((now, stored_level, mode))
             history_append(now, stored_level, mode)
 
-            if is_change and mode == "adapter" and level is not None:
-                if level <= self.threshold and not self.warned:
-                    self.warned = True
-                    self._notify(f"Mouse battery is at {level}%")
-                elif level > self.threshold:
-                    self.warned = False
+            if mode == "adapter" and level is not None:
+                alerts: list[int] = []
+                if not self._has_battery_sample:
+                    reached = [value for value in BATTERY_ALERT_LEVELS if level <= value]
+                    if reached:
+                        # If monitoring starts below several milestones, report
+                        # the most urgent one and mark earlier milestones seen.
+                        alerts.append(min(reached))
+                        self._notified_battery_levels.update(reached)
+                    self._has_battery_sample = True
+                else:
+                    self._notified_battery_levels = {
+                        value for value in self._notified_battery_levels if level <= value
+                    }
+                    for value in BATTERY_ALERT_LEVELS:
+                        if level <= value and value not in self._notified_battery_levels:
+                            alerts.append(value)
+                            self._notified_battery_levels.add(value)
+                for alert_level in alerts:
+                    self._notify(f"Mouse battery reached {alert_level}%")
 
             if self.bridge is not None:
                 self.bridge.state_changed.emit()
@@ -1322,9 +1376,20 @@ def run_diagnostics() -> int:
 
     hid_module = get_hid_module()
     if hid_module is not None:
+        emit(f"HID backend: {getattr(hid_module, '__name__', 'unknown')}")
+    if hid_module is not None:
         try:
             mode, paths = enumerate_mode(hid_module)
             emit(f"Mouse: {mode} (HID paths: {len(paths)})")
+            if mode == "adapter":
+                devices = open_devices(paths, hid_module)
+                try:
+                    if devices:
+                        emit(f"HID access: OK ({len(devices)} interface(s) opened)")
+                    else:
+                        emit("HID access: FAILED (check Linux udev permissions; see README)")
+                finally:
+                    close_devices(devices)
             for device in hid_module.enumerate(VID):
                 emit(
                     f"  found 1d57:{device['product_id']:04x} "

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "attack-shark-x11-battery"
-version = "1.0.0"
+version = "1.1.0"
 description = "Native Qt tray battery monitor and dashboard for the Attack Shark X11 mouse"
 readme = "README.md"
 requires-python = ">=3.10"
